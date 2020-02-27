@@ -17,61 +17,61 @@
             <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8"/>
         </svg> -->
         <span class="des">Source Language</span>
-        <input id='name' type="text" class="login__input username" placeholder="language 1"/>
-        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <input id='src_lang' type="text" class="login__input username" placeholder="source language"/>
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="src_lang" value="target" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="src_lang" value="condition" checked/> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="src_lang" value="none"/> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
         <!-- <svg class="login__icon username svg-icon" viewBox="0 0 20 20">
             <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8"/>
         </svg> -->
         <span class="des">Target Language</span>
-        <input id='name' type="text" class="login__input username" placeholder="language 2"/>
-        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <input id='trg_lang' type="text" class="login__input username" placeholder="target language"/>
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="trg_lang"  value="target"/> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="trg_lang" value="condition" checked /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="trg_lang" value="none"/> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
         <!-- <svg class="login__icon pass svg-icon" viewBox="0 0 20 20">
             <path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0"/>
         </svg> -->
         <span class="des">&nbsp;&nbsp;&nbsp;Date From&nbsp;&nbsp;&nbsp;</span>
-        <input type="date" class="login__input username" />
-        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <input id="date_from" type="date" class="login__input username" />
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="date_from" value="target" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="date_from" value="condition" checked/> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="date_from" value="none"/> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
         <!-- <svg class="login__icon pass svg-icon" viewBox="0 0 20 20">
             <path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0"/>
         </svg> -->
         <span class="des">&nbsp;&nbsp;&nbsp;&nbsp;Date To&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <input type="date" class="login__input username" />
-        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <input id="date_to" type="date" class="login__input username" />
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="date_to" value="target" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="date_to" value="condition" checked/> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="date_to" value="none"/> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
         <span class="des">&nbsp;&nbsp;&nbsp;Uploader&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <input id='name' type="text" class="login__input username" placeholder="Tom"/>
-        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship2"  /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship2" /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship2" /> <span class="des">&nbsp;&nbsp;</span>
+        <input id='uploader' type="text" class="login__input username" placeholder="Tom"/>
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="uploader" value="target" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="uploader" value="condition"/> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="uploader" value="none" checked/> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
         <span class="des">&nbsp;&nbsp;Source Text&nbsp;&nbsp;</span>
-        <input id='name' type="text" class="login__input username" />
-        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <input id='src_text' type="text" class="login__input username" />
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="src_text"  value="target" checked/> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="src_text" value="condition"/> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="src_text" value="none" /> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
         <span class="des">&nbsp;&nbsp;Target Text&nbsp;&nbsp;</span>
-        <input id='name' type="text" class="login__input username" />
-        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <input id='trg_text' type="text" class="login__input username" />
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="trg_text" value="target" checked/> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="trg_text" value="condition" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="trg_text" value="none"/> <span class="des">&nbsp;&nbsp;</span>
     </div>
 
     <input type="button" class="show__users" id="action-btn" value="Implement"/>
@@ -94,13 +94,105 @@
 </body>
 <script>
     var mysql = require('mysql');
+    var {remote}=require('electron');
     
     function el(selector) {
         return document.getElementById(selector);
     }
 
+    function get_item(id) {
+        
+        const radio = document.getElementsByName(id);
+        let type;
+        for (i=0; i<radio.length; i++) {
+            if(radio[i].checked) {
+                type = radio[i].value;
+                break;
+            }
+		}
+
+        return {
+            'type': type,
+            'content': document.getElementById(id).value
+        };
+    }
+    
+    function get_query() {
+        let items = {
+            'src_lang': get_item('src_lang'),
+            'trg_lang': get_item('trg_lang'),
+            'date_from': get_item('date_from'),
+            'date_to': get_item('date_to'),
+            'uploader': get_item('uploader'),
+            'src_text': get_item('src_text'),
+            'trg_text': get_item('trg_text'),
+        }
+        return items;
+    }
+
+    function check_query(query) {
+        // date_from/to cannot be target and date_from must be earlier than date_to
+        function tab(date1,date2){
+            var oDate1 = new Date(date1);
+            var oDate2 = new Date(date2);
+            return oDate1.getTime() > oDate2.getTime();
+        }
+
+        if(query['date_from'].type=='target' || query['date_to'].type=='target') {
+            remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'Date cannot be chosen as target!',
+                    buttons:['ok']
+                });
+            return false;
+        }
+        
+        const data_from = query['date_from'].content;
+        const data_to = query['date_to'].content;
+        if(data_from!='' && data_to!='') {
+            if(tab(data_from, data_to)) {
+                remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'Date From must be earlier than Date To!',
+                    buttons:['ok']
+                });
+                return false;
+            }
+        }
+
+        // at least one target 
+        let count = 0;
+        Object.keys(query).forEach(function(key) {
+            if(query[key]['type']=='target') {
+                count += 1;
+            }
+        });
+        if(count==0) {
+            remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: "There must be one target at least!",
+                    buttons:['ok']
+                });
+            return false;
+        }
+
+        return true;
+    }
+
+
     el('action-btn').addEventListener('click', function () {
         // Get the mysql service
+
+        query = get_query();
+        console.log(query);
+        const flag = check_query(query);
+        if (!flag) {
+            console.log(flag);
+            return;
+        }
 
         getFirstTenRows(function (rows) {
             var html = '';
