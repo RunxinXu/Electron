@@ -13,31 +13,68 @@
 
 
     <div class="login__row">
-        <svg class="login__icon username svg-icon" viewBox="0 0 20 20">
+        <!-- <svg class="login__icon username svg-icon" viewBox="0 0 20 20">
             <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8"/>
-        </svg>
-        <input id='name' type="text" class="login__input username" placeholder="语种1"/>
+        </svg> -->
+        <span class="des">Source Language</span>
+        <input id='name' type="text" class="login__input username" placeholder="language 1"/>
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
-        <svg class="login__icon username svg-icon" viewBox="0 0 20 20">
+        <!-- <svg class="login__icon username svg-icon" viewBox="0 0 20 20">
             <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8"/>
-        </svg>
-        <input id='name' type="text" class="login__input username" placeholder="语种2"/>
+        </svg> -->
+        <span class="des">Target Language</span>
+        <input id='name' type="text" class="login__input username" placeholder="language 2"/>
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
-        <svg class="login__icon pass svg-icon" viewBox="0 0 20 20">
+        <!-- <svg class="login__icon pass svg-icon" viewBox="0 0 20 20">
             <path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0"/>
-        </svg>
-        <input type="date" class="login__input username" placeholder="日期起点" />
+        </svg> -->
+        <span class="des">&nbsp;&nbsp;&nbsp;Date From&nbsp;&nbsp;&nbsp;</span>
+        <input type="date" class="login__input username" />
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
-        <svg class="login__icon pass svg-icon" viewBox="0 0 20 20">
+        <!-- <svg class="login__icon pass svg-icon" viewBox="0 0 20 20">
             <path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0"/>
-        </svg>
-        <input type="date" class="login__input username" placeholder="日期终点" />
+        </svg> -->
+        <span class="des">&nbsp;&nbsp;&nbsp;&nbsp;Date To&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input type="date" class="login__input username" />
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+    </div>
+    <div class="login__row">
+        <span class="des">&nbsp;&nbsp;&nbsp;Uploader&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input id='name' type="text" class="login__input username" placeholder="Tom"/>
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship2"  /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship2" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship2" /> <span class="des">&nbsp;&nbsp;</span>
+    </div>
+    <div class="login__row">
+        <span class="des">&nbsp;&nbsp;Source Text&nbsp;&nbsp;</span>
+        <input id='name' type="text" class="login__input username" />
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+    </div>
+    <div class="login__row">
+        <span class="des">&nbsp;&nbsp;Target Text&nbsp;&nbsp;</span>
+        <input id='name' type="text" class="login__input username" />
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="radio" name="citizenship"  /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">None&nbsp;&nbsp;</span> <input type="radio" name="citizenship" /> <span class="des">&nbsp;&nbsp;</span>
     </div>
 
-    <input type="button" class="show__users" id="action-btn" value="Show Recently Joined Users"/>
+    <input type="button" class="show__users" id="action-btn" value="Implement"/>
     <table id="table" id="table">
         <thead></thead>
         <tfoot></tfoot>
@@ -106,6 +143,8 @@
             }
         });
 
+        console.log('successfully connect!');
+        
         // Perform a query
         $query = 'SELECT id, display_name, city FROM user_profile ORDER BY id DESC LIMIT 8';
 

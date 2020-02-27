@@ -665,3 +665,16 @@ tfoot td {
     color: #8a97a0;
 }
 
+.des {
+    /* display: inline-block; */
+    /* width: 22rem; */
+    height: 100%;
+    /* padding-left: 1.5rem; */
+    font-size: 1.5rem;
+    background: transparent;
+    color: #FDFCFD;
+    position: relative;
+    /* width: 100px; height: 100%; */
+    /* left: 0; top: 0; */
+    text-align: justify;
+}
