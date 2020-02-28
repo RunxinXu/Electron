@@ -75,11 +75,17 @@
     </div>
 
     <input type="button" class="show__users" id="action-btn" value="Implement"/>
-    <table id="table" id="table">
+    <table id="table" width="400">
         <thead></thead>
         <tfoot></tfoot>
         <tbody></tbody>
     </table>
+
+    <!-- <div class="form-group">
+        <label for="upteainput">上传文件</label>
+        <input id="upteainput" name="upfile" type="file" class="show__users">
+    </div> -->
+
     <button class="app__logout" title="Logout" onclick="window.location.href='index.html'">
         <svg class="app__logout-icon svg-icon" viewBox="0 0 20 20">
             <path d="M6,3 a8,8 0 1,0 8,0 M10,0 10,12"/>
@@ -94,7 +100,10 @@
 </body>
 <script>
     var mysql = require('mysql');
-    var {remote}=require('electron');
+    var {remote} =require('electron');
+    let target_field = new Array();
+    let condition_field = new Array();
+    let query;
     
     function el(selector) {
         return document.getElementById(selector);
@@ -104,12 +113,17 @@
         
         const radio = document.getElementsByName(id);
         let type;
+
         for (i=0; i<radio.length; i++) {
             if(radio[i].checked) {
                 type = radio[i].value;
                 break;
             }
-		}
+        }
+        
+        if(type=='condition'&&document.getElementById(id).value=='') {
+            type = 'none';
+        }
 
         return {
             'type': type,
@@ -182,7 +196,6 @@
         return true;
     }
 
-
     el('action-btn').addEventListener('click', function () {
         // Get the mysql service
 
@@ -194,27 +207,43 @@
             return;
         }
 
+        target_field = []
+        condition_field = []
+        Object.keys(query).forEach(function(key) {
+            if(query[key]['type']=='target') {
+                target_field.push(key);
+            } else if (query[key]['type']=='condition') {
+                if(key!='date_from'&&key!='date_to') {
+                    condition_field.push(key);
+                }
+            }
+        });
+
         getFirstTenRows(function (rows) {
             var html = '';
 
             rows.forEach(function (row) {
                 html += '<tr>';
-                html += '<td>';
-                html += row.id;
-                html += '</td>';
-                html += '<td>';
-                html += row.display_name;
-                html += '</td>';
-                html += '<td>';
-                html += row.city;
-                html += '</td>';
+                console.log(target_field);
+                target_field.forEach(function (item) {
+                    html += '<td>';
+                    html += row[item];
+                    html += '</td>';
+                });
                 html += '</tr>';
-                console.log(row);
             });
 
+            var head = '';
+            head += '<tr>';
+            target_field.forEach(function (item) {
+                head += '<th scope="col">';
+                head += item.toUpperCase();
+                head += '</th>';
+            });
+            
             document.querySelector('#table > tbody').innerHTML = html;
-            document.querySelector('#table > thead').innerHTML = '<tr><th scope="col">ID</th> <th scope="col">Name</th> <th scope="col">Location</th> </tr>';
-            document.querySelector('#table > tfoot').innerHTML = '<tr><td colspan="3">Last joined 10 users are listed here.</td> </tr>';
+            document.querySelector('#table > thead').innerHTML = head;
+            // document.querySelector('#table > tfoot').innerHTML = '<tr><td colspan="3">Last joined 10 users are listed here.</td> </tr>';
 
         });
     }, false);
@@ -238,7 +267,37 @@
         console.log('successfully connect!');
         
         // Perform a query
-        $query = 'SELECT id, display_name, city FROM user_profile ORDER BY id DESC LIMIT 8';
+        let $query = 'SELECT ';
+        target_field.forEach(function (item) {
+            $query += item + ', ';
+        });
+        $query = $query.substring(0, $query.lastIndexOf(','));
+        $query += ' FROM CORPUS '
+        if (condition_field.length!=0) {
+            $query += 'WHERE ';
+            condition_field.forEach(function (item) {
+                $query += `${item}="${query[item].content}" and `;
+            });
+        }
+        if(query['date_from'].type == 'condition') {
+            if($query.lastIndexOf('WHERE')==-1) {
+                $query += 'WHERE ';
+            }
+            $query += `date>="${query['date_from'].content}" and `;
+        }
+        if(query['date_to'].type == 'condition') {
+            if($query.lastIndexOf('WHERE')==-1) {
+                $query += 'WHERE ';
+            }
+            $query += `date<="${query['date_to'].content}" and `;
+        }
+
+        if($query.lastIndexOf('and')!=-1) {
+            $query = $query.substring(0, $query.lastIndexOf('and'));
+        }
+        // $query += 'into outfile "/Users/bytedance/Desktop/test.xls";';
+
+        console.log($query);
 
         connection.query($query, function (err, rows, fields) {
             if (err) {
