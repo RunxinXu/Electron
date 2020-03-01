@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Dashboard</title>
+</head>
+
+<body>
+<div class="dashboard">
+
+    <div class="login__row">
+        <!-- <svg class="login__icon username svg-icon" viewBox="0 0 20 20">
+            <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8"/>
+        </svg> -->
+        <span class="des">Source Language</span>
+        <input id='src_lang' type="text" class="login__input username" placeholder="source language"/>
+    </div>
+    <div class="login__row">
+        <!-- <svg class="login__icon username svg-icon" viewBox="0 0 20 20">
+            <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8"/>
+        </svg> -->
+        <span class="des">Target Language</span>
+        <input id='trg_lang' type="text" class="login__input username" placeholder="target language"/>
+    </div>
+    <div class="login__row">
+        <span class="des">&nbsp;&nbsp;&nbsp;Uploader&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input id='uploader' type="text" class="login__input username" placeholder="Tom"/>
+    </div>
+
+    <input id="import" type="button"  class="show__users" value="Import" onclick="Import()">
+
+    <button class="app__logout" title="Logout" onclick="window.location.href='view.html'">
+        <svg class="app__logout-icon svg-icon" viewBox="0 0 20 20">
+            <path d="M6,3 a8,8 0 1,0 8,0 M10,0 10,12"/>
+        </svg>
+    </button>
+
+</div>
+</body>
+<script>
+    var mysql = require('mysql');
+    var fs = require("fs");
+    var {remote} =require('electron');
+    var config = require("./db-config");
+    let query_sql;
+        
+
+    function el(selector) {
+        return document.getElementById(selector);
+    }
+
+    el('action-btn').addEventListener('click', function () {
+
+    }, false);
+
+    function ask_mysql($query, callback) {
+
+        // Add the credentials to access your database
+        var connection = mysql.createConnection(config.db);
+
+        // connect to mysql
+        connection.connect(function (err) {
+            // in case of error
+            if (err) {
+                console.log(err.code);
+                console.log(err.fatal);
+            }
+        });
+
+        connection.query($query, function (err, rows, fields) {
+            if (err) {
+                console.log("An error ocurred performing the query.");
+                console.log(err);
+                return;
+            }
+            if (typeof(callback) != "undefined") {
+                callback(rows);
+            }
+
+            console.log("Query succesfully executed");
+        });
+
+        // Close the connection
+        connection.end(function () {
+            // The connection has been closed
+        });
+    }
+
+    function Import() {
+        const import_path = remote.dialog.showOpenDialog({
+            "property": "openFile"
+        }
+        );
+        console.log(`export path: ${import_path}`);
+    }
+</script>
+</html>

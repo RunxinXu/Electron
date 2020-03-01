@@ -81,17 +81,20 @@
         <tbody></tbody>
     </table>
 
-    <!-- <div class="form-group">
-        <label for="upteainput">上传文件</label>
-        <input id="upteainput" name="upfile" type="file" class="show__users">
-    </div> -->
+    <input id="export" type="button" style="display: none" class="show__users" value="Export" onclick="Export()">
+
 
     <button class="app__logout" title="Logout" onclick="window.location.href='index.html'">
         <svg class="app__logout-icon svg-icon" viewBox="0 0 20 20">
             <path d="M6,3 a8,8 0 1,0 8,0 M10,0 10,12"/>
         </svg>
     </button>
-    <button class="register" title="Register" onclick="window.location.href='register.html'">
+    <!-- <button class="register" title="Register" onclick="window.location.href='register.html'">
+        <svg class="app__logout-icon svg-icon" viewBox="0 0 20 20">
+            <path d="M20.71,4.04C21.1,3.65 21.1,3 20.71,2.63L18.37,0.29C18,-0.1 17.35,-0.1 16.96,0.29L15,2.25L18.75,6M17.75,7L14,3.25L4,13.25V17H7.75L17.75,7Z"></path>
+        </svg>
+    </button> -->
+    <button class="register" title="Register" onclick="window.location.href='import.html'">
         <svg class="app__logout-icon svg-icon" viewBox="0 0 20 20">
             <path d="M20.71,4.04C21.1,3.65 21.1,3 20.71,2.63L18.37,0.29C18,-0.1 17.35,-0.1 16.96,0.29L15,2.25L18.75,6M17.75,7L14,3.25L4,13.25V17H7.75L17.75,7Z"></path>
         </svg>
@@ -100,11 +103,15 @@
 </body>
 <script>
     var mysql = require('mysql');
+    var fs = require("fs");
     var {remote} =require('electron');
+    var config = require("./db-config");
     let target_field = new Array();
     let condition_field = new Array();
-    let query;
-    
+    let query_items;
+    let query_sql;
+        
+
     function el(selector) {
         return document.getElementById(selector);
     }
@@ -199,9 +206,9 @@
     el('action-btn').addEventListener('click', function () {
         // Get the mysql service
 
-        query = get_query();
-        console.log(query);
-        const flag = check_query(query);
+        query_items = get_query();
+        console.log(query_items);
+        const flag = check_query(query_items);
         if (!flag) {
             console.log(flag);
             return;
@@ -209,10 +216,10 @@
 
         target_field = []
         condition_field = []
-        Object.keys(query).forEach(function(key) {
-            if(query[key]['type']=='target') {
+        Object.keys(query_items).forEach(function(key) {
+            if(query_items[key]['type']=='target') {
                 target_field.push(key);
-            } else if (query[key]['type']=='condition') {
+            } else if (query_items[key]['type']=='condition') {
                 if(key!='date_from'&&key!='date_to') {
                     condition_field.push(key);
                 }
@@ -224,7 +231,6 @@
 
             rows.forEach(function (row) {
                 html += '<tr>';
-                console.log(target_field);
                 target_field.forEach(function (item) {
                     html += '<td>';
                     html += row[item];
@@ -244,13 +250,54 @@
             document.querySelector('#table > tbody').innerHTML = html;
             document.querySelector('#table > thead').innerHTML = head;
             // document.querySelector('#table > tfoot').innerHTML = '<tr><td colspan="3">Last joined 10 users are listed here.</td> </tr>';
-
+            
+            el('export').style.display='inline';
         });
     }, false);
 
     function getFirstTenRows(callback) {
-        var mysql = require('mysql');
-        var config = require("./db-config");
+
+        console.log('successfully connect!');
+        
+        // construct a query
+        let $query = 'SELECT ';
+        target_field.forEach(function (item) {
+            $query += item + ', ';
+        });
+        $query = $query.substring(0, $query.lastIndexOf(','));
+        $query += ' FROM CORPUS '
+        if (condition_field.length!=0) {
+            $query += 'WHERE ';
+            condition_field.forEach(function (item) {
+                $query += `${item}="${query_items[item].content}" and `;
+            });
+        }
+        if(query_items['date_from'].type == 'condition') {
+            if($query.lastIndexOf('WHERE')==-1) {
+                $query += 'WHERE ';
+            }
+            $query += `date>="${query_items['date_from'].content}" and `;
+        }
+        if(query_items['date_to'].type == 'condition') {
+            if($query.lastIndexOf('WHERE')==-1) {
+                $query += 'WHERE ';
+            }
+            $query += `date<="${query_items['date_to'].content}" and `;
+        }
+
+        if($query.lastIndexOf('and')!=-1) {
+            $query = $query.substring(0, $query.lastIndexOf('and'));
+        }
+
+        console.log(`query: ${$query}`);
+        
+        // 记录到全局query_sql中，方便export使用
+        query_sql = $query;
+
+        ask_mysql($query + 'LIMIT 10', callback);
+    }
+
+    function ask_mysql($query, callback) {
 
         // Add the credentials to access your database
         var connection = mysql.createConnection(config.db);
@@ -264,49 +311,15 @@
             }
         });
 
-        console.log('successfully connect!');
-        
-        // Perform a query
-        let $query = 'SELECT ';
-        target_field.forEach(function (item) {
-            $query += item + ', ';
-        });
-        $query = $query.substring(0, $query.lastIndexOf(','));
-        $query += ' FROM CORPUS '
-        if (condition_field.length!=0) {
-            $query += 'WHERE ';
-            condition_field.forEach(function (item) {
-                $query += `${item}="${query[item].content}" and `;
-            });
-        }
-        if(query['date_from'].type == 'condition') {
-            if($query.lastIndexOf('WHERE')==-1) {
-                $query += 'WHERE ';
-            }
-            $query += `date>="${query['date_from'].content}" and `;
-        }
-        if(query['date_to'].type == 'condition') {
-            if($query.lastIndexOf('WHERE')==-1) {
-                $query += 'WHERE ';
-            }
-            $query += `date<="${query['date_to'].content}" and `;
-        }
-
-        if($query.lastIndexOf('and')!=-1) {
-            $query = $query.substring(0, $query.lastIndexOf('and'));
-        }
-        // $query += 'into outfile "/Users/bytedance/Desktop/test.xls";';
-
-        console.log($query);
-
         connection.query($query, function (err, rows, fields) {
             if (err) {
                 console.log("An error ocurred performing the query.");
                 console.log(err);
                 return;
             }
-
-            callback(rows);
+            if (typeof(callback) != "undefined") {
+                callback(rows);
+            }
 
             console.log("Query succesfully executed");
         });
@@ -315,6 +328,36 @@
         connection.end(function () {
             // The connection has been closed
         });
+    }
+
+    function Export() {
+        const save_path = remote.dialog.showSaveDialog({
+            "defaultPath": "result.xls"
+            }
+        );
+        console.log(`export path: ${save_path}`);
+        if (typeof(save_path) == "undefined") {
+            return;
+        }
+
+        // 无法导出文件问题有两个：
+        // 1. mysql参数设置问题，可以参考：
+        //      https://blog.csdn.net/fdipzone/article/details/78634992
+        //      https://blog.csdn.net/weixin_41790755/article/details/83021201
+        //      https://blog.csdn.net/qq_42142315/article/details/84973970
+        // 2. 权限问题，直接 sudo chmod -R 777 .
+        // $query += 'into outfile "/Users/bytedance/Desktop/test.xls";';
+        // $query += 'into outfile "/Users/bytedance/Desktop/test.xls" CHARACTER SET GBK;'; //有中文的时候最好指定GBK
+        let $query = query_sql;
+        $query += `into outfile "${save_path}" CHARACTER SET GBK;`;
+
+        // 如果能够来到这一步 如果文件已经存在 用户一定是点了overrite了
+        if (fs.existsSync(save_path)) {
+            fs.unlinkSync(save_path);
+            console.log('overrite the file');
+        }
+        
+        ask_mysql($query);
     }
 </script>
 </html>
