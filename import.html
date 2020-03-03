@@ -30,6 +30,8 @@
         <input id='uploader' type="text" class="login__input username" placeholder="Tom"/>
     </div>
 
+    <p class="login__signup">For now, only *.csv is supported. The file must have two columns, one for the src_lang and the other for the trg_lang.</p>
+
     <input id="import" type="button"  class="show__users" value="Import" onclick="Import()">
 
     <button class="app__logout" title="Logout" onclick="window.location.href='view.html'">
@@ -43,18 +45,16 @@
 <script>
     var mysql = require('mysql');
     var fs = require("fs");
+    var os = require('os')
     var {remote} =require('electron');
     var config = require("./db-config");
+    var TABLE = config.table.name;
     let query_sql;
         
 
     function el(selector) {
         return document.getElementById(selector);
     }
-
-    el('action-btn').addEventListener('click', function () {
-
-    }, false);
 
     function ask_mysql($query, callback) {
 
@@ -67,6 +67,13 @@
             if (err) {
                 console.log(err.code);
                 console.log(err.fatal);
+                remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'Cannot connect to MySQL server!',
+                    buttons:['ok']
+                });
+                return;
             }
         });
 
@@ -74,13 +81,26 @@
             if (err) {
                 console.log("An error ocurred performing the query.");
                 console.log(err);
+                remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'The query fails!',
+                    buttons:['ok']
+                });
                 return;
             }
             if (typeof(callback) != "undefined") {
                 callback(rows);
             }
-
+            
+            remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'The query Succeeds!',
+                    buttons:['ok']
+            });
             console.log("Query succesfully executed");
+
         });
 
         // Close the connection
@@ -90,11 +110,37 @@
     }
 
     function Import() {
+        const src_lang = el('src_lang').value;
+        const trg_lang = el('trg_lang').value;
+        const uploader = el('uploader').value;
+        const cur_date = new Date().toLocaleDateString();
+        const sep = os.EOL;
+
+        if(src_lang==''||trg_lang==''||uploader=='') {
+            remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'Please fulfil the form!',
+                    buttons:['ok']
+            });
+            return;
+        }
+
+        console.log(cur_date);
+        console.log(sep);
+
         const import_path = remote.dialog.showOpenDialog({
             "property": "openFile"
         }
         );
         console.log(`export path: ${import_path}`);
+
+        let query = `LOAD DATA LOCAL INFILE '${import_path}' into table ${TABLE} FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\\r' (src_text, trg_text) set src_lang='${src_lang}',trg_lang='${trg_lang}',date='${cur_date}',uploader='${uploader}';`;
+        console.log(query);
+        ask_mysql(query);
     }
+
+    // import设置 https://stackoverflow.com/questions/59993844/error-loading-local-data-is-disabled-this-must-be-enabled-on-both-the-client
+    // 需要client和mysql的local-infile=1
 </script>
 </html>

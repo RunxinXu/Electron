@@ -679,29 +679,17 @@ tfoot td {
     text-align: justify;
 }
 
-.choose_file {
-    position: relative;/*绝对定位!*/
-    display: inline-block;/*设置为行内元素*/
-    background: #D0EEFF;
-    border: 1px solid #99D3F5;
-    border-radius: 4px;
-    /* padding: 4px 12px; */
+
+.show_button {
+    position: relative;
+    width: 50%;
+    height: 4rem;
+    margin: 0.5rem 0 2.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    background: #009688;
+    font-size: 1.5rem;
+    border-radius: 3rem;
+    cursor: pointer;
     overflow: hidden;
-    color: #1E88C7;
-    text-decoration: none;
-    text-indent: 0;
-    line-height: 20px;
-}
-.choose_file input {
-    position: absolute;/*相对定位*/
-    right: 0;
-    top: 0;
-    opacity: 0;/*将上传组件设置为透明的*/
-    font-size: 100px;
-}
-.choose_file:hover {
-    background: #AADDFF;
-    border-color: #78C3F3;
-    color: #004974;
-    text-decoration: none;
+    transition: width 0.3s 0.15s, font-size 0.1s 0.15s;
 }
