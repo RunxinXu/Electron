@@ -55,6 +55,12 @@
         <span class="des">Condition&nbsp;&nbsp;</span><input type="checkbox" name="uploader" value="condition"/> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
+        <span class="des">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input id='data_id' type="text" class="login__input username" placeholder="Commoncrawl_1"/>
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="checkbox" name="trg_text" value="target" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="checkbox" name="trg_text" value="condition"/> <span class="des">&nbsp;&nbsp;</span>
+    </div>
+    <div class="login__row">
         <span class="des">&nbsp;&nbsp;Source Text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <input id='src_text' type="text" class="login__input username" />
         <span class="des">Target &nbsp;&nbsp;</span> <input type="checkbox" name="src_text"  value="target" checked/> <span class="des">&nbsp;&nbsp;</span>
@@ -145,6 +151,7 @@
             'uploader': get_item('uploader'),
             'src_text': get_item('src_text'),
             'trg_text': get_item('trg_text'),
+            'data_id': get_item('data_id'),
         }
         return items;
     }

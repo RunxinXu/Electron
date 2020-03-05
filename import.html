@@ -29,6 +29,10 @@
         <span class="des">&nbsp;&nbsp;&nbsp;Uploader&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <input id='uploader' type="text" class="login__input username" placeholder="Tom"/>
     </div>
+    <div class="login__row">
+        <span class="des">&nbsp;&nbsp;&nbsp;DATA_ID&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input id='data_id' type="text" class="login__input username" placeholder="Commoncrawl_1"/>
+    </div>
 
     <p class="login__signup">For now, only *.csv is supported. The file must have two columns, one for the src_lang and the other for the trg_lang.</p>
 
@@ -113,10 +117,13 @@
         const src_lang = el('src_lang').value;
         const trg_lang = el('trg_lang').value;
         const uploader = el('uploader').value;
-        const cur_date = new Date().toLocaleDateString();
-        const sep = os.EOL;
+        const data_id = el('data_id').value;
+        const sep = config.platform.sep;
 
-        if(src_lang==''||trg_lang==''||uploader=='') {
+        const cur_date = new Date().toLocaleDateString();
+        
+
+        if(src_lang==''||trg_lang==''||uploader==''||data_id=='') {
             remote.dialog.showMessageBox({
                     type:'info',
                     title: 'Notice',
@@ -135,7 +142,7 @@
         );
         console.log(`export path: ${import_path}`);
 
-        let query = `LOAD DATA LOCAL INFILE '${import_path}' into table ${TABLE} FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\\r' (src_text, trg_text) set src_lang='${src_lang}',trg_lang='${trg_lang}',date='${cur_date}',uploader='${uploader}';`;
+        let query = `LOAD DATA LOCAL INFILE '${import_path}' into table ${TABLE} FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '${sep}' (src_text, trg_text) set src_lang='${src_lang}',trg_lang='${trg_lang}',date='${cur_date}',uploader='${uploader}',data_id='${data_id}';`;
         console.log(query);
         ask_mysql(query);
     }

@@ -26,13 +26,19 @@
                     </svg>
                     <input id='password' type="password" class="login__input pass" placeholder="Password"/>
                 </div>
-                <button type="button" class="login__submit" onclick=login()>Login</button>
+                <button type="button" class="login__submit" onclick=check_table_exists()>Login</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    var mysql = require('mysql');
+    var {remote} =require('electron');
+    var config = require("./db-config");
+    var TABLE = config.table.name;
+    const $query = 'SHOW TABLES;'
+
     function login() {
         
         const name = document.getElementById("name").value;
@@ -40,14 +46,140 @@
         console.log(name);
         console.log(password);
 
-        if (check(name, password)) {
+        if (true) {
             console.log('Successfully check!');
             window.location.href='view.html';
         } 
     }
 
-    function check(name, password) {
-        return true;
+    function check_table_exists() {
+
+        // Add the credentials to access your database
+        var connection = mysql.createConnection(config.db);
+
+        // connect to mysql
+        connection.connect(function (err) {
+            // in case of error
+            if (err) {
+                console.log(err.code);
+                console.log(err.fatal);
+                remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'Cannot connect to MySQL server!',
+                    buttons:['ok']
+                });
+                return;
+            }
+        });
+
+        connection.query($query, function (err, rows, fields) {
+            if (err) {
+                console.log("An error ocurred performing the query.");
+                console.log(err);
+                remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'Oops!Something fails!',
+                    buttons:['ok']
+                });
+                return;
+            }
+
+            console.log(rows);
+            let exist_flag = false;
+            for(let i=0;i<rows.length;i++) {
+                if(rows[i]['Tables_in_mt'] == TABLE) {
+                    exist_flag = true;
+                    break;
+                }
+            }
+
+            if(!exist_flag) {
+                const f = remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'The table has not been created. Do you want to create the table and initialize it?',
+                    buttons:['cancel', 'ok']
+                });
+                if(f==1) {
+                    create_table();
+                } else {
+                    remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'You cannot log in until the table is created.',
+                    buttons:['ok']
+                    });
+                }
+                return;
+            } else {
+                login();   
+            }
+            
+        });
+
+        // Close the connection
+        connection.end(function () {
+            // The connection has been closed
+        });
+    }
+
+    function create_table() {
+        // Add the credentials to access your database
+        var connection = mysql.createConnection(config.db);
+
+        // connect to mysql
+        connection.connect(function (err) {
+            // in case of error
+            if (err) {
+                console.log(err.code);
+                console.log(err.fatal);
+                remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'Cannot connect to MySQL server!',
+                    buttons:['ok']
+                });
+                return;
+            }
+        });
+
+        create_table_sql = ` CREATE TABLE ${TABLE} ( 
+                                            SRC_LANG VARCHAR(30) NOT NULL, 
+                                            TRG_LANG VARCHAR(30) NOT NULL,
+                                            DATE DATE NOT NULL,
+                                            UPLOADER VARCHAR(50) NOT NULL,
+                                            DATA_ID VARCHAR(50) NOT NULL,
+                                            SRC_TEXT TEXT NOT NULL,
+                                            TRG_TEXT TEXT NOT NULL);`
+        connection.query(create_table_sql, function (err, rows, fields) {
+            console.log(rows);
+            if (err) {
+                console.log("An error ocurred performing the query.");
+                console.log(err);
+                remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'Oops!Something fails!',
+                    buttons:['ok']
+                });
+                return;
+            } else {
+                remote.dialog.showMessageBox({
+                    type:'info',
+                    title: 'Notice',
+                    message: 'Successfully create the table!',
+                    buttons:['ok']
+                });
+                login();
+            }
+        });
+
+        // Close the connection
+        connection.end(function () {
+            // The connection has been closed
+        });
     }
 
 </script>
