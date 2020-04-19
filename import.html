@@ -114,8 +114,8 @@
     }
 
     function Import() {
-        const src_lang = el('src_lang').value;
-        const trg_lang = el('trg_lang').value;
+        let src_lang = el('src_lang').value;
+        let trg_lang = el('trg_lang').value;
         const uploader = el('uploader').value;
         const data_id = el('data_id').value;
         const sep = config.platform.sep;

@@ -57,8 +57,8 @@
     <div class="login__row">
         <span class="des">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <input id='data_id' type="text" class="login__input username" placeholder="Commoncrawl_1"/>
-        <span class="des">Target &nbsp;&nbsp;</span> <input type="checkbox" name="trg_text" value="target" /> <span class="des">&nbsp;&nbsp;</span>
-        <span class="des">Condition&nbsp;&nbsp;</span><input type="checkbox" name="trg_text" value="condition"/> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Target &nbsp;&nbsp;</span> <input type="checkbox" name="data_id" value="target" /> <span class="des">&nbsp;&nbsp;</span>
+        <span class="des">Condition&nbsp;&nbsp;</span><input type="checkbox" name="data_id" value="condition"/> <span class="des">&nbsp;&nbsp;</span>
     </div>
     <div class="login__row">
         <span class="des">&nbsp;&nbsp;Source Text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -212,7 +212,7 @@
         target_field = []
         condition_field = []
         Object.keys(query_items).forEach(function(key) {
-            if(key=='date_from'||key=='data_to') return;
+            if(key=='date_from'||key=='date_to') return;
 
             if(query_items[key]['type'].indexOf('target')!=-1) {
                 target_field.push(key);
