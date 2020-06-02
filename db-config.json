@@ -8,7 +8,10 @@
   "table": {
     "name": "CORPUS"
   },
-  "platform": {
+  "platform_import": {
+    "sep": "\\n"
+  },
+  "platform_export": {
     "sep": "\\r"
   }
 }

@@ -34,7 +34,7 @@
         <input id='data_id' type="text" class="login__input username" placeholder="Commoncrawl_1"/>
     </div>
 
-    <p class="login__signup">For now, only *.csv is supported. The file must have two columns, one for the src_lang and the other for the trg_lang.</p>
+    <p class="login__signup">Your input file must be `src_text`+`\t&lt;b&gt;\t&lt;/b&gt;\t`+`trg_text` without any headlines.</p>
 
     <input id="import" type="button"  class="show__users" value="Import" onclick="Import()">
 
@@ -118,7 +118,7 @@
         let trg_lang = el('trg_lang').value;
         const uploader = el('uploader').value;
         const data_id = el('data_id').value;
-        const sep = config.platform.sep;
+        const im_sep = config.platform_import.sep;
 
         const cur_date = new Date().toLocaleDateString();
         
@@ -134,15 +134,17 @@
         }
 
         console.log(cur_date);
-        console.log(sep);
+        console.log(im_sep);
 
         const import_path = remote.dialog.showOpenDialog({
             "property": "openFile"
         }
         );
-        console.log(`export path: ${import_path}`);
+        if (import_path==undefined) return;
+        console.log(`import path: ${import_path}`);
 
-        let query = `LOAD DATA LOCAL INFILE '${import_path}' into table ${TABLE} FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '${sep}' (src_text, trg_text) set src_lang='${src_lang}',trg_lang='${trg_lang}',date='${cur_date}',uploader='${uploader}',data_id='${data_id}';`;
+        // let query = `LOAD DATA LOCAL INFILE '${import_path}' into table ${TABLE} FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '${im_sep}' (src_text, trg_text) set src_lang='${src_lang}',trg_lang='${trg_lang}',date='${cur_date}',uploader='${uploader}',data_id='${data_id}';`;
+        let query = `LOAD DATA LOCAL INFILE '${import_path}' into table ${TABLE} FIELDS TERMINATED BY '\t<b>\t</b>\t' LINES TERMINATED BY '${im_sep}' (src_text, trg_text) set src_lang='${src_lang}',trg_lang='${trg_lang}',date='${cur_date}',uploader='${uploader}',data_id='${data_id}';`;
         console.log(query);
         ask_mysql(query);
     }

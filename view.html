@@ -357,7 +357,7 @@
 
     function Export() {
         const save_path = remote.dialog.showSaveDialog({
-            "defaultPath": "result.xls"
+            "defaultPath": "result"
             }
         );
         console.log(`export path: ${save_path}`);
@@ -371,10 +371,14 @@
         //      https://blog.csdn.net/weixin_41790755/article/details/83021201
         //      https://blog.csdn.net/qq_42142315/article/details/84973970
         // 2. 权限问题，直接 sudo chmod -R 777 .
+
         // $query += 'into outfile "/Users/bytedance/Desktop/test.xls";';
         // $query += 'into outfile "/Users/bytedance/Desktop/test.xls" CHARACTER SET GBK;'; //有中文的时候最好指定GBK
         let $query = query_sql;
-        $query += `into outfile "${save_path}" CHARACTER SET GBK;`;
+        const ex_sep = config.platform_export.sep;
+        console.log(ex_sep)
+        $query += `into outfile "${save_path}" character set gbk fields terminated by "\t<b>\t</b>\t" LINES TERMINATED BY "${ex_sep}"; `;
+        console.log($query)
 
         // 如果能够来到这一步 如果文件已经存在 用户一定是点了overrite了
         if (fs.existsSync(save_path)) {
